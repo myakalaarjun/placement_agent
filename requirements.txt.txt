@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+python-multipart
+langchain
+langchain-google-genai
+pypdf
+ddgs
+requests
