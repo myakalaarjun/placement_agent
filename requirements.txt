@@ -1,7 +1,7 @@
 fastapi
 uvicorn[standard]
 python-multipart
-langchain
+langchain-core
 langchain-google-genai
 pypdf
 ddgs
