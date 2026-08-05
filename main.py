@@ -17,9 +17,11 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 # ============================================================
 # FASTAPI APP
 # ============================================================
-from fastapi.templating import Jinja2Templates
+import os
 
-templates = Jinja2Templates(directory="templates")
+from fastapi.responses import FileResponse
+
+app = FastAPI()
 app = FastAPI(
     title="Student Placement Agent",
     description="Agentic AI career assistant for students",
@@ -54,14 +56,14 @@ llm = ChatGoogleGenerativeAI(
 # HOME
 # ============================================================
 
-from fastapi import Request
-from fastapi.responses import HTMLResponse
+@app.get("/")
+async def home():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    html_file = os.path.join(base_dir, "templates", "index.html")
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request}
+    return FileResponse(
+        html_file,
+        media_type="text/html"
     )
 
 
