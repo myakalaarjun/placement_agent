@@ -1,8 +1,10 @@
 fastapi
-uvicorn[standard]
+uvicorn
 python-multipart
-langchain-core
+jinja2
+langchain
 langchain-google-genai
+google-genai
 pypdf
 ddgs
 requests
