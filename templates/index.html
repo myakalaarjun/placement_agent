@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Placement Agent</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #303f9f;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            background: #303f9f;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #202d80;
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin-top: 25px;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f7f7f7;
+            border-radius: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎓 Student Placement Agent</h1>
+
+    <p class="subtitle">
+        AI Career Assistant for Students
+    </p>
+
+    <form id="agentForm">
+
+        <label>Resume PDF</label>
+        <input
+            type="file"
+            id="resume"
+            accept=".pdf"
+            required
+        >
+
+        <label>Target Job Role</label>
+        <input
+            type="text"
+            id="role"
+            placeholder="Example: Machine Learning Engineer"
+            required
+        >
+
+        <label>GitHub Username or URL</label>
+        <input
+            type="text"
+            id="github_id"
+            placeholder="Example: yourusername"
+            required
+        >
+
+        <button type="submit">
+            🚀 Analyze My Profile
+        </button>
+
+    </form>
+
+    <div id="loading">
+        🤖 Agent is analyzing your profile... Please wait.
+    </div>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+document.getElementById("agentForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const resume = document.getElementById("resume").files[0];
+    const role = document.getElementById("role").value;
+    const github_id = document.getElementById("github_id").value;
+
+    const loading = document.getElementById("loading");
+    const result = document.getElementById("result");
+
+    loading.style.display = "block";
+    result.innerHTML = "";
+
+    const formData = new FormData();
+
+    formData.append("resume", resume);
+    formData.append("role", role);
+    formData.append("github_id", github_id);
+
+    try {
+
+        const response = await fetch("/analyze", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        loading.style.display = "none";
+
+        result.textContent =
+            JSON.stringify(data, null, 2);
+
+    } catch (error) {
+
+        loading.style.display = "none";
+
+        result.textContent =
+            "Error: " + error;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
